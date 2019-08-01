@@ -26,7 +26,7 @@ function align_vgg_pose(path, wildcard, target_landmarks_file)
         landmarks = csvread(fullfile(path,landmarks_fname));
         im = align_face(im, landmarks, target_landmarks, crop_size);
         out_fname = strcat(out_prefix,im_fname);
-        imwrite(im, fullfile(path,out_fname));
+        imwrite(im, fullfile('../temp/cropped/', out_fname));
     end
 
 
