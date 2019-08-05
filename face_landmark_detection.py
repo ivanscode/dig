@@ -95,5 +95,7 @@ files = glob.glob(os.path.join(faces_folder_path, im_extension))
 pool = ThreadPool(8)
 res = pool.map(cropImage, files)
 
+os.system('matlab -nosplash -nodesktop -nodisplay -r "generate ' + faces_folder_path + '"')
+
 
 
