@@ -17,11 +17,11 @@ function align_vgg_pose(path, wildcard, landmarks_path)
     end
 
     % align images
-    imfiles = [dir(strcat(path, '*.jpg')); dir(strcat(path, '*.png'))];
-    for i_m = 1:numel(imfiles)
+    imfiles = dir(strcat(path, wildcard));
+    parfor i_m = 1:numel(imfiles)
         im_fname = imfiles(i_m).name;
         landmarks_fname = strcat(prefix, im_fname, suffix);
-        im = imread(fullfile(path, im_fname));
+        im = imread(fullfile(imfiles(i_m).folder, im_fname));
         landmarks = csvread(fullfile(landmarks_path, landmarks_fname));
         im = align_face(im, landmarks, target_landmarks, crop_size);
         out_fname = strcat(out_prefix, im_fname);

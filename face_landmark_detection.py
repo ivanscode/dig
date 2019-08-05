@@ -91,11 +91,11 @@ if os.path.isdir('./gen/aux/temp/csv') is False:
     os.mkdir('./gen/aux/temp/csv')
 
 files = glob.glob(os.path.join(faces_folder_path, im_extension))
-
-pool = ThreadPool(8)
+print(len(files))
+pool = ThreadPool(4)
 res = pool.map(cropImage, files)
 
-os.system('matlab -nosplash -nodesktop -nodisplay -r "generate ' + faces_folder_path + '"')
+os.system('matlab -nosplash -nodesktop -nodisplay -r "generate ' + faces_folder_path + ' ' + im_extension + '"')
 
 
 
