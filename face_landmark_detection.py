@@ -47,8 +47,9 @@ import os
 import dlib
 import glob
 from skimage import io
+from multiprocessing.dummy import Pool as ThreadPool 
 
-if len(sys.argv) != 4:
+if len(sys.argv) != 3:
     print(
         "Give the path to the trained shape predictor model as the first "
         "argument and then the directory containing the facial images.\n"
@@ -59,18 +60,15 @@ if len(sys.argv) != 4:
         "    http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2")
     exit()
 
-predictor_path = sys.argv[1]
-faces_folder_path = sys.argv[2]
-im_extension = sys.argv[3]
+predictor_path = './gen/aux/shape_predictor_68_face_landmarks.dat'
+faces_folder_path = sys.argv[1]
+im_extension = sys.argv[2]
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(predictor_path)
 
-if os.path.isdir('./gen/aux/temp') is False:
-    os.mkdir('./gen/aux/temp')
-
-for f in glob.glob(os.path.join(faces_folder_path, im_extension)):
-    img = io.imread(f)
+def cropImage(path):
+    img = io.imread(path)
 
     # Ask the detector to find the bounding boxes of each face. The 1 in the
     # second argument indicates that we should upsample the image 1 time. This
@@ -79,15 +77,23 @@ for f in glob.glob(os.path.join(faces_folder_path, im_extension)):
     # Get the landmarks/parts for the face in box d.
     shape = predictor(img, dets[0])
     # Print points
-    f_parts = f.split('/')
+    f_parts = path.split('/')
     fname = f_parts[-1]
     fout = 'Fast_Marks_' + fname + '.csv'
-    if os.path.isdir('./gen/aux/temp/csv') is False:
-        os.mkdir('./gen/aux/temp/csv')
+    
     fout = './gen/aux/temp/csv/' + fout
     fout_handle = open( fout, mode='w')
     for p in range(shape.num_parts):
         fout_handle.write( str(shape.part(p).x) + ',' + str(shape.part(p).y) + '\n' )
     fout_handle.close()
+
+if os.path.isdir('./gen/aux/temp/csv') is False:
+    os.mkdir('./gen/aux/temp/csv')
+
+files = glob.glob(os.path.join(faces_folder_path, im_extension))
+
+pool = ThreadPool(8)
+res = pool.map(cropImage, files)
+
 
 
