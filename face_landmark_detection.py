@@ -66,8 +66,8 @@ im_extension = sys.argv[3]
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(predictor_path)
 
-if os.path.isdir('./aux/temp') is False:
-    os.mkdir('./aux/temp')
+if os.path.isdir('./gen/aux/temp') is False:
+    os.mkdir('./gen/aux/temp')
 
 for f in glob.glob(os.path.join(faces_folder_path, im_extension)):
     img = io.imread(f)
@@ -82,9 +82,9 @@ for f in glob.glob(os.path.join(faces_folder_path, im_extension)):
     f_parts = f.split('/')
     fname = f_parts[-1]
     fout = 'Fast_Marks_' + fname + '.csv'
-    if os.path.isdir('./aux/temp/csv') is False:
-        os.mkdir('./aux/temp/csv')
-    fout = './aux/temp/csv/' + fout
+    if os.path.isdir('./gen/aux/temp/csv') is False:
+        os.mkdir('./gen/aux/temp/csv')
+    fout = './gen/aux/temp/csv/' + fout
     fout_handle = open( fout, mode='w')
     for p in range(shape.num_parts):
         fout_handle.write( str(shape.part(p).x) + ',' + str(shape.part(p).y) + '\n' )
