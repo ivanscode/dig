@@ -68,34 +68,37 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(predictor_path)
 
 def cropImage(path):
-    img = io.imread(path)
+    try:
+        img = io.imread(path)
 
-    # Ask the detector to find the bounding boxes of each face. The 1 in the
-    # second argument indicates that we should upsample the image 1 time. This
-    # will make everything bigger and allow us to detect more faces.
-    dets = detector(img, 1)
-    # Get the landmarks/parts for the face in box d.
-    shape = predictor(img, dets[0])
-    # Print points
-    f_parts = path.split('/')
-    fname = f_parts[-1]
-    fout = 'Fast_Marks_' + fname + '.csv'
-    
-    fout = './gen/aux/temp/csv/' + fout
-    fout_handle = open( fout, mode='w')
-    for p in range(shape.num_parts):
-        fout_handle.write( str(shape.part(p).x) + ',' + str(shape.part(p).y) + '\n' )
-    fout_handle.close()
+        # Ask the detector to find the bounding boxes of each face. The 1 in the
+        # second argument indicates that we should upsample the image 1 time. This
+        # will make everything bigger and allow us to detect more faces.
+        dets = detector(img, 1)
+        # Get the landmarks/parts for the face in box d.
+        shape = predictor(img, dets[0])
+        # Print points
+        f_parts = path.split('/')
+        fname = f_parts[-1]
+        fout = 'Fast_Marks_' + fname + '.csv'
+        
+        fout = './gen/aux/temp/csv/' + fout
+        fout_handle = open( fout, mode='w')
+        for p in range(shape.num_parts):
+            fout_handle.write( str(shape.part(p).x) + ',' + str(shape.part(p).y) + '\n' )
+        fout_handle.close()
+    except(IndexError):
+        print(path)
 
 if os.path.isdir('./gen/aux/temp/csv') is False:
     os.mkdir('./gen/aux/temp/csv')
 
 files = glob.glob(os.path.join(faces_folder_path, im_extension))
-print(len(files))
-pool = ThreadPool(4)
+
+pool = ThreadPool(8)
 res = pool.map(cropImage, files)
 
-os.system('matlab -nosplash -nodesktop -nodisplay -r "generate ' + faces_folder_path + ' ' + im_extension + '"')
+#os.system('matlab -nosplash -nodesktop -nodisplay -r "generate ' + faces_folder_path + ' ' + im_extension + '"')
 
 
 
