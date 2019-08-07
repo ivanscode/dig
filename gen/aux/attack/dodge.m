@@ -13,10 +13,10 @@ function experiment = dodge(experiment, net, target, step_size, lambda_tv, lambd
     % start perturbing...
     iter = 1;
     scores = 1;
+    ims = [];
     while iter<=max_iter && mean(scores)>stop_prob
         
         %% Get gradients from net
-        ims = [];
         movements = [];
         areas_to_perturb = [];
         for im_i = 1:experiment.num_images
@@ -114,15 +114,19 @@ function experiment = dodge(experiment, net, target, step_size, lambda_tv, lambd
         if verbose
             scores = scores(:,:,target,:);
             scores = scores(:);
-            fprintf('Avg. target probability: %0.2e\n', mean(scores));
-            fprintf('Non-printability score = %0.2e\n', ps);
-            disp(['Done with iter #' num2str(iter)]);
-            imshow(uint8(ims(:,:,:,1))); drawnow;
+            %fprintf('Avg. target probability: %0.2e\n', mean(scores));
+            %fprintf('Non-printability score = %0.2e\n', ps);
+            %disp(['Done with iter #' num2str(iter)]);
+            %imshow(uint8(ims(:,:,:,1))); drawnow;
         end
         
         %% Update counter
         iter = iter + 1;
         
     end
-
+    todir = strcat('./results/', int2str(target));
+    if ~exist(todir, 'dir')
+        mkdir(todir);
+    end
+    imwrite(uint8(ims(:,:,:,1)), strcat(strcat(todir, '/'), strcat(int2str(target), '.jpg')));
 end

@@ -7,13 +7,15 @@ function experiment = prepare_experiment( starting_colors, images_dir, num_image
     accessory_im( accessory_area ) = starting_colors( accessory_area );
 
     % background images
-    background_images = dir(fullfile(images_dir, 'aligned_*.png'));
+    split = strsplit(images_dir, '/');
+    id = char(split(end));
+    background_images = dir(fullfile(strcat('./gen/aux/temp/cropped/', id), 'aligned_*.jpg'));
     background_images = background_images(randperm(numel(background_images)));
     num_images = min(num_images, numel(background_images));
     background_images = background_images(1:num_images);
     images = uint8(zeros([224 224 3 num_images]));
     for i = 1:num_images
-        im = imread(fullfile(images_dir, background_images(i).name));
+        im = imread(fullfile(strcat('./gen/aux/temp/cropped/', id), background_images(i).name));
         im = imresize(im, [224 224]);
         images(:,:,:,i) = im;
     end

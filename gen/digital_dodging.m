@@ -65,7 +65,7 @@ experiment = dodge( experiment, net, target, step_size, lambda_tv, ...
 
                       
 %% Store result
-results_file = sprintf('vgg-nn-%d-digital-dodge.mat', target);
-save(['./results/' results_file], 'experiment');
+%results_file = sprintf('vgg-nn-%d-digital-dodge.mat', target);
+%save(['./results/' results_file], 'experiment');
 
 end

@@ -12,11 +12,17 @@ addpath ./gen/
 
 net_path = './gen/aux/vgg_face.mat';
 
-align_vgg_pose(input, wildcard, './gen/aux/temp/csv/');
+%align_vgg_pose(input, wildcard, './gen/aux/temp/csv/');
 
+files = dir(input);
 
+if ~exist('./results/', 'dir')
+    mkdir('./results');
+end
 
-quit();
+for i = 3:numel(files)
+    digital_dodging(net_path, input, files(i).name, str2double(files(i).name));
+end
 
 end
 

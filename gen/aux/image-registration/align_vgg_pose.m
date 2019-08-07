@@ -17,15 +17,24 @@ function align_vgg_pose(path, wildcard, landmarks_path)
     end
 
     % align images
-    imfiles = dir(strcat(path, wildcard));
+    imfiles = dir(strcat(path, wildcard))
     parfor i_m = 1:numel(imfiles)
         im_fname = imfiles(i_m).name;
         landmarks_fname = strcat(prefix, im_fname, suffix);
         im = imread(fullfile(imfiles(i_m).folder, im_fname));
-        landmarks = csvread(fullfile(landmarks_path, landmarks_fname));
-        im = align_face(im, landmarks, target_landmarks, crop_size);
-        out_fname = strcat(out_prefix, im_fname);
-        imwrite(im, fullfile('./gen/aux/temp/cropped/', out_fname));
+        split = strsplit(imfiles(i_m).folder, '/');
+        id = char(split(end));
+        full_landmarks_name = fullfile(strcat(landmarks_path, id), landmarks_fname);
+        if exist(full_landmarks_name, 'file')
+            landmarks = csvread(full_landmarks_name);
+            im = align_face(im, landmarks, target_landmarks, crop_size);
+            out_fname = strcat(out_prefix, im_fname);
+            if ~exist(strcat('./gen/aux/temp/cropped/', id), 'dir')
+               mkdir(strcat('./gen/aux/temp/cropped/', id));
+            end
+            imwrite(im, fullfile(strcat('./gen/aux/temp/cropped/', id), out_fname));
+        end
+        
     end
 
 
