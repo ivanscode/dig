@@ -1,6 +1,8 @@
 # Dodge Image Generator
 
-![Example Output](example_output.jpg)
+<p align="center">
+  <img src="example_output.jpg">  
+</p>
 
 ## Preprocess
 Before generating the attack images, the input should be processed by `face_landmark_detection.py`.
