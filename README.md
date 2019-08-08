@@ -1,5 +1,7 @@
 # Dodge Image Generator
 
+![Example Output](example_output.jpg)
+
 ## Preprocess
 Before generating the attack images, the input should be processed by `face_landmark_detection.py`.
 Args:
@@ -10,7 +12,7 @@ This will generate the images that can run through MatConvNet.
 
 The next step is to run `align_vgg_pose` which can be run from `generate.m` if `digital_dodging` or equivalent is replaced by a call to that function passing in the input path, wildcard and output path.
 
-## Running (not done)
+## Running
 After runnning the preprocess, `generate.m` will create the attack images (for now, digital dodging as the only mode).
 
 ## Limitations
