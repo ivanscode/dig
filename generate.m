@@ -21,7 +21,7 @@ if ~exist('./results/', 'dir')
 end
 
 for i = 3:numel(files)
-    gpuDevice(1);
+    gpuDevice(1)
     digital_dodging(net_path, input, files(i).name, str2double(files(i).name));
 end
 

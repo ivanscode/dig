@@ -9,7 +9,7 @@ function align_vgg_pose(path, wildcard, landmarks_path)
     prefix = 'Fast_Marks_';
     suffix = '.csv';
     out_prefix = 'aligned_vgg_';
-    crop_size = [1 1 224 224];
+    crop_size = [1 1 160 160];
     
     target_landmarks = csvread('./gen/aux/image-registration/ref_marks.csv');
     if ~exist('./gen/aux/temp/cropped', 'dir')

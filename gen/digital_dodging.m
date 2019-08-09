@@ -39,7 +39,7 @@ end
 %% Prepare the experiment, starting from the best solid color
 best_experiment = []; min_avg_target_prob = 1;
 for c_i = 1:size(potential_starting_colors, 1)
-    starting_vals = repmat(reshape(potential_starting_colors(c_i,:), [1 1 3]), [224 224]);
+    starting_vals = repmat(reshape(potential_starting_colors(c_i,:), [1 1 3]), [160 160]);
     experiment = prepare_experiment( starting_vals, fullfile(main_data_directory, images_directory), num_images );
     ims = single(experiment.images);
     for im_i = 1:size(experiment.images,4)

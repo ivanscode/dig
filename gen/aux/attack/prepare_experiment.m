@@ -13,10 +13,10 @@ function experiment = prepare_experiment( starting_colors, images_dir, num_image
     background_images = background_images(randperm(numel(background_images)));
     num_images = min(num_images, numel(background_images));
     background_images = background_images(1:num_images);
-    images = uint8(zeros([224 224 3 num_images]));
+    images = uint8(zeros([160 160 3 num_images]));
     for i = 1:num_images
         im = imread(fullfile(strcat('./gen/aux/temp/cropped/', id), background_images(i).name));
-        im = imresize(im, [224 224]);
+        im = imresize(im, [160 160]);
         images(:,:,:,i) = im;
     end
 
