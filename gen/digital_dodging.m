@@ -28,6 +28,7 @@ potential_starting_colors = [
 net = load(net_path);
 net = net.net;
 [net, ~] = change_dropout_rates(net, 0);
+net.normalization.imageSize = [160, 160, 3];
 
 %% Use GPU?
 preprocess = @(x)(x);
