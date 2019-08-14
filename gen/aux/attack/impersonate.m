@@ -1,4 +1,4 @@
-function experiment = impersonate(experiment, net, target, step_size, lambda_tv, lambda_printability, momentum_coeff, max_iter, verbose, filtering, fixed_rgb_channels, move_ranges, preprocess, stop_prob)
+function experiment = impersonate(experiment, net, target, step_size, lambda_tv, lambda_printability, momentum_coeff, max_iter, verbose, filtering, fixed_rgb_channels, move_ranges, preprocess, stop_prob, original)
 
     % adjust the step size and lambda_tv
     step_size = step_size/experiment.num_images;
@@ -114,15 +114,20 @@ function experiment = impersonate(experiment, net, target, step_size, lambda_tv,
         if verbose
             scores = scores(:,:,target,:);
             scores = scores(:);
-            fprintf('Avg. target probability: %0.2e\n', mean(scores));
-            fprintf('Non-printability score = %0.2e\n', ps);
-            disp(['Done with iter #' num2str(iter)]);
-            imshow(uint8(ims(:,:,:,1))); drawnow;
+            %fprintf('Avg. target probability: %0.2e\n', mean(scores));
+            %fprintf('Non-printability score = %0.2e\n', ps);
+            %disp(['Done with iter #' num2str(iter)]);
+            %imshow(uint8(ims(:,:,:,1))); drawnow;
         end
         
         %% Update counter
         iter = iter + 1;
         
     end
+    todir = strcat('./results/', int2str(original), '-to-', int2str(target));
+    if ~exist(todir, 'dir')
+        mkdir(todir);
+    end
+    imwrite(uint8(ims(:,:,:,1)), strcat(todir, '/', 'result.jpg'));
 
 end

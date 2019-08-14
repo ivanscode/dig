@@ -61,11 +61,11 @@ experiment = best_experiment;
 experiment = impersonate( experiment, net, target, step_size, lambda_tv, ...
                           printability_coeff, momentum_coeff, max_iter, ...
                           verbose, gauss_filtering, channels_to_fix, ...
-                          move_ranges, preprocess, stop_prob );
+                          move_ranges, preprocess, stop_prob, impersonator);
 
                       
 %% Store result
-results_file = sprintf('vgg-nn-%d-digital-impersonate-%d.mat', impersonator, target);
-save(['./results/' results_file], 'experiment');
+%results_file = sprintf('vgg-nn-%d-digital-impersonate-%d.mat', impersonator, target);
+%save(['./results/' results_file], 'experiment');
 
 end

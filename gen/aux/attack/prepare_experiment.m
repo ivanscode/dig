@@ -16,6 +16,9 @@ function experiment = prepare_experiment( starting_colors, images_dir, num_image
     images = uint8(zeros([224 224 3 num_images]));
     for i = 1:num_images
         im = imread(fullfile(strcat('./gen/aux/temp/cropped/', id), background_images(i).name));
+        if size(im, 3) ~= 3
+            im = repmat(im, [1, 1, 3]);
+        end
         im = imresize(im, [224 224]);
         images(:,:,:,i) = im;
     end
